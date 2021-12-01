@@ -35,7 +35,8 @@ type CompetitionData struct {
 
 func (c CompetitionData) Display() {
 	fmt.Println("Total Competitions:", c.Count)
+	fmt.Printf("%4s |%s", "ID", "Name\n")
 	for _, competition := range c.Competitions {
-		fmt.Println(competition.Name)
+		fmt.Printf("%-5d|%s \n", competition.ID, competition.Name)
 	}
 }
