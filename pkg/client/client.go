@@ -1,12 +1,42 @@
 package client
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/spf13/viper"
 )
+
+func RequestData(url string, bind interface{}) {
+	if url == "" {
+		fmt.Println("url is required")
+		return
+	}
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		fmt.Println("failed to create request")
+		return
+	}
+
+	req.Header.Add("x-auth-token", viper.Get("apikey").(string))
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		fmt.Println("failed to send request")
+		return
+	}
+
+	defer resp.Body.Close()
+	err = json.NewDecoder(resp.Body).Decode(&bind)
+	if err != nil {
+		fmt.Println("failed to decode response to bind", err)
+	}
+}
 
 func RequestToFile(url string) {
 	if url == "" {

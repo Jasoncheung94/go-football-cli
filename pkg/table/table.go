@@ -1,60 +1,62 @@
 package table
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
-	"os"
-	"time"
 
 	"github.com/jasoncheung94/go-football-cli/entity"
+	"github.com/jasoncheung94/go-football-cli/pkg/client"
 )
 
-func Fetch() entity.TableData {
-	// http://api.football-data.org/v2/competitions
-
-	file, err := ioutil.ReadFile("premier-league.json") // need to fix the path for this and have a unique place.
-	data := entity.TableData{}
-	err = json.Unmarshal(file, &data)
-	if err != nil {
-		fmt.Println("failed to process table data")
-		return data
+func Fetch(leagueCode string) entity.TableData {
+	if leagueCode == "" {
+		leagueCode = "PL"
 	}
+	result := entity.TableData{}
+	client.RequestData(
+		fmt.Sprintf("http://api.football-data.org/v2/competitions/%s/standings", leagueCode),
+		&result)
 
-	return data
-	unix := time.Now().Unix()
-	fmt.Println("creating file")
-	f, err := os.Create(fmt.Sprintf("./%v", unix))
-	if err != nil {
-		panic("failed to create file to read into")
-	}
-	defer f.Close()
-
-	req, err := http.NewRequest(http.MethodGet, "http://api.football-data.org/v2/competitions", nil)
-	if err != nil {
-		fmt.Println("failed to create request")
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		panic("failed to do request")
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		panic("failed body")
-	}
-	fmt.Println(string(body))
-
-	_, err = f.Write(body)
-	if err != nil {
-		fmt.Println("failed to write to file")
-	}
-
-	_ = f.Sync()
-	return entity.TableData{}
+	return result
 }
+
+// // leaguesCmd represents the leagues command
+// var leaguesCmd = &cobra.Command{
+// 	Use:   "leagues",
+// 	Short: "A brief description of your command",
+// 	Long: `A longer description that spans multiple lines and likely contains examples
+// and usage of using your command. For example:
+
+// Cobra is a CLI library for Go that empowers applications.
+// This application is a tool to generate the needed files
+// to quickly create a Cobra application.`,
+// 	Run: func(cmd *cobra.Command, args []string) {
+// 		fmt.Println("leagues called")
+// 		url := "http://api.football-data.org/v2/competitions/BL1/standings"
+
+// 		req, _ := http.NewRequest("GET", url, nil)
+
+// 		req.Header.Add("x-auth-token", viper.Get("apikey").(string))
+
+// 		resp, _ := http.DefaultClient.Do(req)
+
+// 		defer resp.Body.Close()
+// 		body, _ := ioutil.ReadAll(resp.Body)
+
+// 		fmt.Println(resp)
+// 		fmt.Println(string(body))
+// 	},
+// }
+
+// func init() {
+// 	rootCmd.AddCommand(leaguesCmd)
+
+// 	// Here you will define your flags and configuration settings.
+
+// 	// Cobra supports Persistent Flags which will work for this command
+// 	// and all subcommands, e.g.:
+// 	// leaguesCmd.PersistentFlags().String("foo", "", "A help for foo")
+
+// 	// Cobra supports local flags which will only run when this command
+// 	// is called directly, e.g.:
+// 	// leaguesCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+// }

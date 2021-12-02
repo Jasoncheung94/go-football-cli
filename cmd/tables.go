@@ -46,24 +46,11 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		table.Fetch().DisplayWithPterm()
-		// tableData.DisplayWithPterm()
-
-		// fmt.Println("LFC #1")
-		// fmt.Println(args)
-		// fmt.Println(cmd.Flags().GetString("league"))
-		// fmt.Println(viper.AllKeys(), viper.Get("apikey"), viper.Get("author"))
-
-		// fmt.Println(viper.Get("test"))
-		// fs := http.FileServer(http.Dir("."))
-		// http.Handle("/", fs)
-
-		// open("http://localhost:3000/example.html")
-		// log.Println("Listening on :3000...")
-		// err := http.ListenAndServe(":3000", nil)
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
+		code, err := cmd.Flags().GetString("league")
+		if err != nil {
+			code = "PL"
+		}
+		table.Fetch(code).DisplayWithPterm()
 	},
 }
 

@@ -55,7 +55,6 @@ func init() {
 	// will be global for your application.
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.football.yaml)")
-	fmt.Println("config", cfgFile)
 
 	rootCmd.PersistentFlags().StringP("author", "a", "YOUR NAME", "author name for copyright attribution")
 	viper.BindPFlag("author", rootCmd.PersistentFlags().Lookup("author"))
@@ -78,7 +77,6 @@ func initConfig() {
 
 		// Search config in home directory with name ".football" (without extension).
 		viper.AddConfigPath(home + "/go/src/github.com/jasoncheung94/go-football-cli/config")
-		fmt.Println(home)
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".football")
 	}
