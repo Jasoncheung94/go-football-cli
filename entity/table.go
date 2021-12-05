@@ -67,9 +67,15 @@ func (t TableData) Display() {
 
 func (t TableData) DisplayWithPterm() {
 	pterm.Println() // Blank line
-	data := pterm.TableData{{}}
+	data := pterm.TableData{}
 	for _, standing := range t.Standings {
-		data[0] = []string{"Pos", "Club", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts"}
+		if len(standing.Table) == 0 {
+			continue
+		}
+		if standing.Group != nil {
+			data = append(data, []string{standing.Group.(string)})
+		}
+		data = append(data, []string{"Pos", "Club", "MP", "W", "D", "L", "GF", "GA", "GD", "Pts"})
 		for _, team := range standing.Table {
 			data = append(data, []string{
 				strconv.FormatInt(int64(team.Position), 10),
@@ -84,6 +90,7 @@ func (t TableData) DisplayWithPterm() {
 				strconv.FormatInt(int64(team.Points), 10),
 			})
 		}
+		data = append(data, []string{"\n"})
 	}
 	pterm.DefaultTable.WithHasHeader().WithData(data).WithLeftAlignment().Render()
 }
