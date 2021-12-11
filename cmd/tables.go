@@ -16,7 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"github.com/jasoncheung94/go-football-cli/pkg/table"
+	"github.com/jasoncheung94/go-football-cli/pkg/api/football"
 	"github.com/spf13/cobra"
 )
 
@@ -50,7 +50,7 @@ to quickly create a Cobra application.`,
 		if err != nil {
 			code = "PL"
 		}
-		table.Fetch(code).DisplayWithPterm()
+		football.FetchTable(code).DisplayWithPterm()
 	},
 }
 

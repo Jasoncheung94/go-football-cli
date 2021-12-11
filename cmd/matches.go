@@ -1,5 +1,5 @@
 /*
-Copyright © 2021 Jason Cheung jasoncheung94@hotmail.com
+Copyright © 2021 NAME HERE <EMAIL ADDRESS>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// competitionsCmd represents the competitions command
-var competitionsCmd = &cobra.Command{
-	Use:   "competitions",
+// matchesCmd represents the matches command
+var matchesCmd = &cobra.Command{
+	Use:   "matches",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -31,20 +31,25 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		football.FetchCompetitions().Display()
+		code, err := cmd.Flags().GetString("competition")
+		if err != nil {
+			code = "PL"
+		}
+		football.FetchMatches(code).Display()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(competitionsCmd)
+	rootCmd.AddCommand(matchesCmd)
+	matchesCmd.Flags().String("competition", "PL", "Find tables for competition")
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// competitionsCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// matchesCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// competitionsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// matchesCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

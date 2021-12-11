@@ -1,4 +1,4 @@
-package table
+package football
 
 import (
 	"fmt"
@@ -7,14 +7,16 @@ import (
 	"github.com/jasoncheung94/go-football-cli/pkg/client"
 )
 
-func Fetch(leagueCode string) entity.TableData {
-	if leagueCode == "" {
-		leagueCode = "PL"
+func FetchTable(competitionCode string) entity.TableData {
+	if competitionCode == "" {
+		competitionCode = "PL"
 	}
 	result := entity.TableData{}
 	client.RequestData(
-		fmt.Sprintf("http://api.football-data.org/v2/competitions/%s/standings", leagueCode),
-		&result)
+		fmt.Sprintf("http://api.football-data.org/v2/competitions/%s/standings", competitionCode),
+		&result,
+		nil,
+	)
 
 	return result
 }

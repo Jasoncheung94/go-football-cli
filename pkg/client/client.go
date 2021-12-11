@@ -11,7 +11,18 @@ import (
 	"github.com/spf13/viper"
 )
 
-func RequestData(url string, bind interface{}) {
+type Filters struct {
+	DateFrom     time.Time
+	DateTo       time.Time
+	Stage        string
+	Status       string
+	MatchDay     int
+	Group        string
+	Season       string //year
+	Competitions string
+}
+
+func RequestData(url string, bind interface{}, f *Filters) {
 	if url == "" {
 		fmt.Println("url is required")
 		return
@@ -24,6 +35,15 @@ func RequestData(url string, bind interface{}) {
 	}
 
 	req.Header.Add("x-auth-token", viper.Get("apikey").(string))
+	queryParams := req.URL.Query()
+	if f.Competitions != "" {
+		queryParams.Add("competitions", f.Competitions)
+		queryParams.Add("status", "SCHEDULED")
+		// For dates the API requires year month day.
+		queryParams.Add("dateFrom", time.Now().Format("2006-01-02"))
+		queryParams.Add("dateTo", time.Now().Add((time.Hour*24)*7).Format("2006-01-02"))
+	}
+	req.URL.RawQuery = queryParams.Encode()
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
