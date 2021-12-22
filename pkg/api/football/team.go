@@ -3,8 +3,8 @@ package football
 import (
 	"fmt"
 
-	"github.com/jasoncheung94/go-football-cli/entity"
 	"github.com/jasoncheung94/go-football-cli/pkg/client"
+	"github.com/jasoncheung94/go-football-cli/pkg/entity"
 )
 
 func FetchTeams(competitionCode string) entity.TeamData {

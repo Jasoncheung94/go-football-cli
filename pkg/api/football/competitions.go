@@ -1,8 +1,8 @@
 package football
 
 import (
-	"github.com/jasoncheung94/go-football-cli/entity"
 	"github.com/jasoncheung94/go-football-cli/pkg/client"
+	"github.com/jasoncheung94/go-football-cli/pkg/entity"
 )
 
 func FetchCompetitions() entity.CompetitionData {
