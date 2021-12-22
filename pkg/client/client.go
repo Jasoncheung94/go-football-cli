@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/spf13/viper"
@@ -19,7 +20,7 @@ type Filters struct {
 	MatchDay     int
 	Group        string
 	Season       string //year
-	Competitions string
+	Competitions []string
 }
 
 func RequestData(url string, bind interface{}, f *Filters) {
@@ -30,18 +31,26 @@ func RequestData(url string, bind interface{}, f *Filters) {
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		fmt.Println("failed to create request")
+		panic("failed to create request")
 		return
 	}
 
-	req.Header.Add("x-auth-token", viper.Get("apikey").(string))
+	if val, ok := viper.Get("apikey").(string); ok {
+		req.Header.Add("x-auth-token", val)
+	} else {
+		fmt.Println("TODO read from cache or dummy data.")
+	}
+
 	queryParams := req.URL.Query()
-	if f.Competitions != "" {
-		queryParams.Add("competitions", f.Competitions)
-		queryParams.Add("status", "SCHEDULED")
-		// For dates the API requires year month day.
-		queryParams.Add("dateFrom", time.Now().Format("2006-01-02"))
-		queryParams.Add("dateTo", time.Now().Add((time.Hour*24)*7).Format("2006-01-02"))
+	if f != nil {
+		switch {
+		case len(f.Competitions) > 0:
+			queryParams.Add("competitions", strings.Join(f.Competitions, ","))
+			queryParams.Add("status", "SCHEDULED")
+			// For dates the API requires year month day.
+			queryParams.Add("dateFrom", time.Now().Format("2006-01-02"))
+			queryParams.Add("dateTo", time.Now().Add((time.Hour*24)*7).Format("2006-01-02"))
+		}
 	}
 	req.URL.RawQuery = queryParams.Encode()
 
@@ -55,6 +64,7 @@ func RequestData(url string, bind interface{}, f *Filters) {
 	err = json.NewDecoder(resp.Body).Decode(&bind)
 	if err != nil {
 		fmt.Println("failed to decode response to bind", err)
+		return
 	}
 }
 
@@ -72,7 +82,7 @@ func RequestToFile(url string) {
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		fmt.Println("failed to create request")
+		panic("failed to create request")
 	}
 
 	req.Header.Set("Content-type", "application/json")
@@ -90,7 +100,7 @@ func RequestToFile(url string) {
 
 	_, err = f.Write(body)
 	if err != nil {
-		fmt.Println("failed to write to file")
+		panic("failed to write to file")
 	}
 
 	_ = f.Sync()

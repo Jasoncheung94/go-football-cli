@@ -1,22 +1,17 @@
 package football
 
 import (
-	"fmt"
-
 	"github.com/jasoncheung94/go-football-cli/entity"
 	"github.com/jasoncheung94/go-football-cli/pkg/client"
 )
 
-func FetchMatches(competitionCode string) entity.MatchData {
-	if competitionCode == "" {
-		competitionCode = "PL"
-	}
+func FetchMatches(competitionIDs []string) entity.MatchData {
 	result := entity.MatchData{}
 	f := &client.Filters{
-		Competitions: "2021",
+		Competitions: competitionIDs,
 	}
 	client.RequestData(
-		fmt.Sprintf("http://api.football-data.org/v2/competitions/%s/matches", competitionCode),
+		"http://api.football-data.org/v2/matches",
 		&result,
 		f,
 	)

@@ -8,34 +8,29 @@ import (
 type MatchData struct {
 	Count   int `json:"count"`
 	Filters struct {
-		Matchday string `json:"matchday"`
+		DateFrom string `json:"dateFrom"`
+		DateTo   string `json:"dateTo"`
 	} `json:"filters"`
-	Competition struct {
-		ID   int `json:"id"`
-		Area struct {
+	Matches []struct {
+		ID          int `json:"id"`
+		Competition struct {
 			ID   int    `json:"id"`
 			Name string `json:"name"`
-		} `json:"area"`
-		Name        string    `json:"name"`
-		Code        string    `json:"code"`
-		Plan        string    `json:"plan"`
-		LastUpdated time.Time `json:"lastUpdated"`
-	} `json:"competition"`
-	Matches []struct {
-		ID     int `json:"id"`
+		} `json:"competition"`
 		Season struct {
-			ID              int    `json:"id"`
-			StartDate       string `json:"startDate"`
-			EndDate         string `json:"endDate"`
-			CurrentMatchday int    `json:"currentMatchday"`
+			ID              int      `json:"id"`
+			StartDate       string   `json:"startDate"`
+			EndDate         string   `json:"endDate"`
+			CurrentMatchday int      `json:"currentMatchday"`
+			AvailableStages []string `json:"availableStages"`
 		} `json:"season"`
-		UtcDate     time.Time `json:"utcDate"`
-		Status      string    `json:"status"`
-		Attendance  int       `json:"attendance"`
-		Matchday    int       `json:"matchday"`
-		Stage       string    `json:"stage"`
-		Group       string    `json:"group"`
-		LastUpdated time.Time `json:"lastUpdated"`
+		UtcDate     time.Time   `json:"utcDate"`
+		Status      string      `json:"status"`
+		Attendance  interface{} `json:"attendance"`
+		Matchday    int         `json:"matchday"`
+		Stage       string      `json:"stage"`
+		Group       string      `json:"group"`
+		LastUpdated time.Time   `json:"lastUpdated"`
 		HomeTeam    struct {
 			ID    int    `json:"id"`
 			Name  string `json:"name"`
@@ -111,8 +106,8 @@ type MatchData struct {
 			} `json:"penalties"`
 		} `json:"score"`
 		Goals []struct {
-			Minute int         `json:"minute"`
-			Type   interface{} `json:"type"`
+			Minute int    `json:"minute"`
+			Type   string `json:"type"`
 			Team   struct {
 				ID   int    `json:"id"`
 				Name string `json:"name"`
@@ -121,7 +116,10 @@ type MatchData struct {
 				ID   int    `json:"id"`
 				Name string `json:"name"`
 			} `json:"scorer"`
-			Assist interface{} `json:"assist"`
+			Assist struct {
+				ID   int    `json:"id"`
+				Name string `json:"name"`
+			} `json:"assist"`
 		} `json:"goals"`
 		Bookings []struct {
 			Minute int `json:"minute"`
@@ -159,8 +157,13 @@ type MatchData struct {
 }
 
 func (m MatchData) Display() {
-	fmt.Println("Competition:", m.Competition)
+	renderedCompetition := ""
 	for _, match := range m.Matches {
-		fmt.Println(match.ID, match.Status, match.UtcDate, match.HomeTeam.Name, "VS", match.AwayTeam.Name)
+		if renderedCompetition != match.Competition.Name {
+			fmt.Println("Competition:", match.Competition.Name)
+			fmt.Printf("\n%-20s |%-30s      %-30s\n", "Datetime", "Home Team", "Away Team")
+			renderedCompetition = match.Competition.Name
+		}
+		fmt.Printf("%-20s |%-30s vs   %-30s \n", match.UtcDate.Format("Jan 02 15:04 PM"), match.HomeTeam.Name, match.AwayTeam.Name)
 	}
 }

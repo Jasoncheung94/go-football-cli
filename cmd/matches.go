@@ -16,6 +16,8 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/jasoncheung94/go-football-cli/pkg/api/football"
 	"github.com/spf13/cobra"
 )
@@ -31,17 +33,17 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		code, err := cmd.Flags().GetString("competition")
+		ids, err := cmd.Flags().GetStringSlice("competitionIds")
 		if err != nil {
-			code = "PL"
+			fmt.Println(err)
 		}
-		football.FetchMatches(code).Display()
+		football.FetchMatches(ids).Display()
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(matchesCmd)
-	matchesCmd.Flags().String("competition", "PL", "Find tables for competition")
+	matchesCmd.Flags().StringSlice("competitionIds", []string{"2021"}, "Find tables for competition ids")
 
 	// Here you will define your flags and configuration settings.
 

@@ -23,13 +23,10 @@ import (
 // competitionsCmd represents the competitions command
 var competitionsCmd = &cobra.Command{
 	Use:   "competitions",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Fetches all the available competitions",
+	Long: `This command fetches all available competitions, display's their ID, name and location. 
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+This information is useful for other commands when the competition ID is required.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		football.FetchCompetitions().Display()
 	},
@@ -37,14 +34,7 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(competitionsCmd)
-
-	// Here you will define your flags and configuration settings.
-
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// competitionsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// competitionsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	competitionsCmd.PersistentFlags().String("mode", "production", "Mode to fetch from live API or dummy data")
 }
