@@ -9,7 +9,9 @@ import (
 
 func FetchScorers(competitionId string) entity.Scorers {
 	result := entity.Scorers{}
-	f := &client.Filters{}
+	f := &client.Filters{
+		CacheFile: "scorers.json",
+	}
 	client.RequestData(
 		fmt.Sprintf("http://api.football-data.org/v2/competitions/%s/scorers", competitionId),
 		&result,

@@ -9,6 +9,7 @@ func FetchMatches(competitionIDs []string) entity.MatchData {
 	result := entity.MatchData{}
 	f := &client.Filters{
 		Competitions: competitionIDs,
+		CacheFile:    "matches.json",
 	}
 	client.RequestData(
 		"http://api.football-data.org/v2/matches",

@@ -12,11 +12,13 @@ func FetchTeams(competitionCode string) entity.TeamData {
 		competitionCode = "PL"
 	}
 	result := entity.TeamData{}
+	f := &client.Filters{
+		CacheFile: "teams.json",
+	}
 	client.RequestData(
 		fmt.Sprintf("http://api.football-data.org/v2/competitions/%s/teams", competitionCode),
 		&result,
-		nil,
+		f,
 	)
-
 	return result
 }

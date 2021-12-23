@@ -40,11 +40,7 @@ var competitionCodes = map[string]string{
 var tablesCmd = &cobra.Command{
 	Use:   "tables",
 	Short: "Returns the current tables of leagues.",
-	Long: `DITTO TODO:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long:  `Displays the tables for a given competition code.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		code, err := cmd.Flags().GetString("competition")
 		if err != nil {
@@ -56,14 +52,5 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(tablesCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// tablesCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
 	tablesCmd.Flags().String("competition", "PL", "Find tables for competition")
 }

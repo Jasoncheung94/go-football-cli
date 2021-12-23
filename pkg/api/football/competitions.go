@@ -7,6 +7,9 @@ import (
 
 func FetchCompetitions() entity.CompetitionData {
 	result := entity.CompetitionData{}
-	client.RequestData("http://api.football-data.org/v2/competitions", &result, nil)
+	f := &client.Filters{
+		CacheFile: "competitions.json",
+	}
+	client.RequestData("http://api.football-data.org/v2/competitions", &result, f)
 	return result
 }

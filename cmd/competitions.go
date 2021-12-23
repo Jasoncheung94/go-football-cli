@@ -24,9 +24,9 @@ import (
 var competitionsCmd = &cobra.Command{
 	Use:   "competitions",
 	Short: "Fetches all the available competitions",
-	Long: `This command fetches all available competitions, display's their ID, name and location. 
+	Long: `This command fetches all available competitions, display's their ID, name, code and location. 
 
-This information is useful for other commands when the competition ID is required.`,
+This information is useful for other commands when the competition ID/Code is required.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		football.FetchCompetitions().Display()
 	},
@@ -34,7 +34,4 @@ This information is useful for other commands when the competition ID is require
 
 func init() {
 	rootCmd.AddCommand(competitionsCmd)
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	competitionsCmd.PersistentFlags().String("mode", "production", "Mode to fetch from live API or dummy data")
 }

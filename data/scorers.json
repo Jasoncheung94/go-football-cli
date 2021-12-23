@@ -1,0 +1,216 @@
+{
+    "count": 10,
+    "filters": {
+        "limit": 10
+    },
+    "competition": {
+        "id": 2021,
+        "area": {
+            "id": 2072,
+            "name": "England"
+        },
+        "name": "Premier League",
+        "code": "PL",
+        "plan": "TIER_ONE",
+        "lastUpdated": "2021-04-17T02:20:14Z"
+    },
+    "season": {
+        "id": 733,
+        "startDate": "2021-08-13",
+        "endDate": "2022-05-22",
+        "currentMatchday": 19,
+        "winner": null
+    },
+    "scorers": [
+        {
+            "player": {
+                "id": 3754,
+                "name": "Mohamed Salah",
+                "firstName": "Mohamed Salah",
+                "lastName": null,
+                "dateOfBirth": "1992-06-15",
+                "countryOfBirth": "Egypt",
+                "nationality": "Egypt",
+                "position": "Attacker",
+                "shirtNumber": null,
+                "lastUpdated": "2020-09-07T21:02:43Z"
+            },
+            "team": {
+                "id": 64,
+                "name": "Liverpool FC"
+            },
+            "numberOfGoals": 15
+        },
+        {
+            "player": {
+                "id": 4092,
+                "name": "Diogo Jota",
+                "firstName": "Diogo José",
+                "lastName": null,
+                "dateOfBirth": "1996-12-04",
+                "countryOfBirth": "Portugal",
+                "nationality": "Portugal",
+                "position": "Attacker",
+                "shirtNumber": null,
+                "lastUpdated": "2020-09-07T21:02:52Z"
+            },
+            "team": {
+                "id": 64,
+                "name": "Liverpool FC"
+            },
+            "numberOfGoals": 10
+        },
+        {
+            "player": {
+                "id": 3330,
+                "name": "Jamie Vardy",
+                "firstName": "Jamie",
+                "lastName": null,
+                "dateOfBirth": "1987-01-11",
+                "countryOfBirth": "England",
+                "nationality": "England",
+                "position": "Attacker",
+                "shirtNumber": null,
+                "lastUpdated": "2020-11-26T02:14:30Z"
+            },
+            "team": {
+                "id": 338,
+                "name": "Leicester City FC"
+            },
+            "numberOfGoals": 9
+        },
+        {
+            "player": {
+                "id": 37428,
+                "name": "Raphinha",
+                "firstName": "Raphael",
+                "lastName": null,
+                "dateOfBirth": "1996-12-14",
+                "countryOfBirth": "Brazil",
+                "nationality": "Brazil",
+                "position": "Defender",
+                "shirtNumber": 7,
+                "lastUpdated": "2021-04-10T14:16:27Z"
+            },
+            "team": {
+                "id": 341,
+                "name": "Leeds United FC"
+            },
+            "numberOfGoals": 8
+        },
+        {
+            "player": {
+                "id": 8894,
+                "name": "Emmanuel Dennis",
+                "firstName": "Emmanuel Bonaventure",
+                "lastName": null,
+                "dateOfBirth": "1997-11-15",
+                "countryOfBirth": "Nigeria",
+                "nationality": "Nigeria",
+                "position": "Attacker",
+                "shirtNumber": 42,
+                "lastUpdated": "2021-04-13T21:44:26Z"
+            },
+            "team": {
+                "id": 346,
+                "name": "Watford FC"
+            },
+            "numberOfGoals": 7
+        },
+        {
+            "player": {
+                "id": 3343,
+                "name": "Son Heungmin",
+                "firstName": "Heungmin",
+                "lastName": "Son",
+                "dateOfBirth": "1992-07-08",
+                "countryOfBirth": "Korea Republic",
+                "nationality": "Korea Republic",
+                "position": "Midfielder",
+                "shirtNumber": null,
+                "lastUpdated": "2021-10-13T08:04:15Z"
+            },
+            "team": {
+                "id": 73,
+                "name": "Tottenham Hotspur FC"
+            },
+            "numberOfGoals": 7
+        },
+        {
+            "player": {
+                "id": 3626,
+                "name": "Sadio Mané",
+                "firstName": "Sadio",
+                "lastName": null,
+                "dateOfBirth": "1992-04-10",
+                "countryOfBirth": "Senegal",
+                "nationality": "Senegal",
+                "position": "Attacker",
+                "shirtNumber": null,
+                "lastUpdated": "2020-09-07T21:02:43Z"
+            },
+            "team": {
+                "id": 64,
+                "name": "Liverpool FC"
+            },
+            "numberOfGoals": 7
+        },
+        {
+            "player": {
+                "id": 44,
+                "name": "Cristiano Ronaldo",
+                "firstName": "Cristiano Ronaldo",
+                "lastName": "dos Santos Aveiro",
+                "dateOfBirth": "1985-02-05",
+                "countryOfBirth": "Portugal",
+                "nationality": "Portugal",
+                "position": "Attacker",
+                "shirtNumber": null,
+                "lastUpdated": "2021-10-13T08:04:10Z"
+            },
+            "team": {
+                "id": 66,
+                "name": "Manchester United FC"
+            },
+            "numberOfGoals": 7
+        },
+        {
+            "player": {
+                "id": 3254,
+                "name": "Bernardo Silva",
+                "firstName": "Bernardo",
+                "lastName": null,
+                "dateOfBirth": "1994-08-10",
+                "countryOfBirth": "Portugal",
+                "nationality": "Portugal",
+                "position": "Midfielder",
+                "shirtNumber": null,
+                "lastUpdated": "2021-04-14T07:43:27Z"
+            },
+            "team": {
+                "id": 65,
+                "name": "Manchester City FC"
+            },
+            "numberOfGoals": 7
+        },
+        {
+            "player": {
+                "id": 85570,
+                "name": "Emile Smith Rowe",
+                "firstName": "Emile",
+                "lastName": null,
+                "dateOfBirth": "2000-07-28",
+                "countryOfBirth": "England",
+                "nationality": "England",
+                "position": "Midfielder",
+                "shirtNumber": null,
+                "lastUpdated": "2021-02-25T14:23:05Z"
+            },
+            "team": {
+                "id": 57,
+                "name": "Arsenal FC"
+            },
+            "numberOfGoals": 7
+        }
+    ]
+}

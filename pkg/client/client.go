@@ -21,24 +21,25 @@ type Filters struct {
 	Group        string
 	Season       string //year
 	Competitions []string
+	CacheFile    string
 }
 
 func RequestData(url string, bind interface{}, f *Filters) {
 	if url == "" {
-		fmt.Println("url is required")
-		return
+		panic("url is required")
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		panic("failed to create request")
-		return
 	}
 
 	if val, ok := viper.Get("apikey").(string); ok {
 		req.Header.Add("x-auth-token", val)
 	} else {
-		fmt.Println("TODO read from cache or dummy data.")
+		RequestFromFile(f.CacheFile, &bind)
+		// Return early the with data.
+		return
 	}
 
 	queryParams := req.URL.Query()
@@ -56,22 +57,19 @@ func RequestData(url string, bind interface{}, f *Filters) {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		fmt.Println("failed to send request")
-		return
+		panic("failed to send request")
 	}
 
 	defer resp.Body.Close()
 	err = json.NewDecoder(resp.Body).Decode(&bind)
 	if err != nil {
-		fmt.Println("failed to decode response to bind", err)
-		return
+		panic(err)
 	}
 }
 
-func RequestToFile(url string) {
+func RequestToFile(url string, filter *Filters) {
 	if url == "" {
-		fmt.Println("url is required")
-		return
+		panic("url is required")
 	}
 	unix := time.Now().Unix()
 	f, err := os.Create(fmt.Sprintf("./%v", unix))
@@ -84,6 +82,22 @@ func RequestToFile(url string) {
 	if err != nil {
 		panic("failed to create request")
 	}
+	if val, ok := viper.Get("apikey").(string); ok {
+		req.Header.Add("x-auth-token", val)
+	}
+
+	queryParams := req.URL.Query()
+	if filter != nil {
+		switch {
+		case len(filter.Competitions) > 0:
+			queryParams.Add("competitions", strings.Join(filter.Competitions, ","))
+			queryParams.Add("status", "SCHEDULED")
+			// For dates the API requires year month day.
+			queryParams.Add("dateFrom", time.Now().Format("2006-01-02"))
+			queryParams.Add("dateTo", time.Now().Add((time.Hour*24)*7).Format("2006-01-02"))
+		}
+	}
+	req.URL.RawQuery = queryParams.Encode()
 
 	req.Header.Set("Content-type", "application/json")
 	resp, err := http.DefaultClient.Do(req)
@@ -104,4 +118,16 @@ func RequestToFile(url string) {
 	}
 
 	_ = f.Sync()
+}
+
+func RequestFromFile(filename string, bind interface{}) {
+	file, err := ioutil.ReadFile("./data/" + filename)
+	if err != nil {
+		panic(err)
+	}
+
+	err = json.Unmarshal([]byte(file), &bind)
+	if err != nil {
+		panic("failed to bind data")
+	}
 }
